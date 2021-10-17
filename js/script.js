@@ -1,7 +1,8 @@
-const size = 50;
+const size = localStorage.getItem('sketchpx') || 50;
 
 function main() {
     createGrid(size, size);
+    document.querySelector('input').value = size;
     document.querySelector('button').addEventListener('click', recreateGrid);
 }
 
@@ -42,10 +43,12 @@ function createGrid(ySize, xSize) {
                 realTarget.style.backgroundColor = '#111111';
             });
 
-            // if the screen tilts then reset the display or it will break
+            // if the screen resizes or tilts then reload the document or the maths will break
             window.addEventListener('resize', () => {
                 location.reload();
             });
+
+            document.querySelector('input').addEventListener('change', recreateGrid);
         }
     }
 }
@@ -60,9 +63,12 @@ function destroyGrid() {
 }
 
 function recreateGrid() {
-    destroyGrid();
-    const size = document.querySelector('input').value;
+    let size = document.querySelector('input').value;
     if (size > 100) size = 100;
+    if (size < 1) size = 1;
+    localStorage.setItem('sketchpx', size);
+    document.querySelector('input').value = '' + size;
+    destroyGrid();
     createGrid(size, size);
 }
 
