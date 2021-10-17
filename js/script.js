@@ -39,8 +39,11 @@ function createGrid(ySize, xSize) {
                 // workaround to get current element being touched
                 var myLocation = e.changedTouches[0];
                 var realTarget = document.elementFromPoint(myLocation.clientX, myLocation.clientY);
-
-                realTarget.style.backgroundColor = '#111111';
+                
+                if(realTarget.classList.contains('grid-pixel'))
+                {
+                    realTarget.style.backgroundColor = '#111111';
+                }
             });
 
             // if the screen resizes or tilts then reload the document or the maths will break
